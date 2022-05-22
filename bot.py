@@ -48,7 +48,6 @@ async def bot_check(bot_username):
 
 
 async def status_checker():
-    print(1)
     message = f"💡 **Bots Status** 💡\n\n"
     for bot in BOT_LIST:
         message += await bot_check(bot)
