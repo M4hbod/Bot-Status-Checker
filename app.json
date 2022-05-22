@@ -1,7 +1,7 @@
 {
-    "name": "veez checker bot",
-    "description": "bot status checker",
-    "repository": "https://github.com/levina-lab/status-checker",
+    "name": "Bot Status Checker",
+    "description": "Telegram Bot Written In Python Using Pyrogram To Check Bots Status",
+    "repository": "https://github.com/M4hbod/Bot-Status-Checker",
     "keywords": [
         "BotStatus",
         "How to check your bots are alive or not",
@@ -24,7 +24,7 @@
             "required": true
         },
         "BOT_LIST": {
-            "description": "Your bot username list without '@' (Example: VeezMusicBot VeezMegaBot)",
+            "description": "Your bot username list without '@' (Example: MakhusicBot OceanThiefBot)",
             "required": true
         },
        "CHANNEL_OR_GROUP_ID": {
