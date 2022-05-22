@@ -1,10 +1,9 @@
 import asyncio
-import contextlib
 import datetime
 
 import aioschedule
 import pytz
-from pyrogram import Client, idle
+from pyrogram import Client
 from pyrogram.errors import FloodWait
 
 from config import (API_HASH, API_ID, BOT_ADMIN_IDS, BOT_LIST,
