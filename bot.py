@@ -37,8 +37,10 @@ async def bot_check(bot_username):
         if first_message_id == second_message_id:
             status = f"\n\n🤖 **Bot**: @{bot_username}\n🔴 Status: **OFF** ❌"
             for bot_admin_id in BOT_ADMIN_IDS:
-                with contextlib.suppress(Exception):
+                try:
                     await app.send_message(int(bot_admin_id), f"🚨 **Notification** 🚨\n\n» @{bot_username} is **DEAD** ❌")
+                except:
+                    pass
         else:
             status = f"\n\n🤖 **Bot**: @{bot_username}\n🟢 Status: **ON** ✅"
         await app.read_chat_history(bot_username)
@@ -52,7 +54,7 @@ async def status_checker():
     for bot in BOT_LIST:
         message += await bot_check(bot)
     time = datetime.datetime.now(pytz.timezone(f"{TIME_ZONE}"))
-    last_update = time.strftime(f"%d %b %Y at %I:%M %p")
+    last_update = time.strftime("%d %b %Y at %I:%M %p")
     message += f"\n\n🛂 Last Check: {last_update} ({TIME_ZONE})\n\n🟡 **It will be updated every {CHECK_DELAY} Seconds ({int(CHECK_DELAY/60)} Minutes)**"
     await app.edit_message_text(int(CHANNEL_OR_GROUP_ID), MESSAGE_ID, message)
     print(f"Last Check: {last_update}")
