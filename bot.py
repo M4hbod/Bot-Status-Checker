@@ -30,10 +30,10 @@ async def bot_check(bot_username):
     """
     try:
         checker_status = await app.send_message(bot_username, "/start")
-        first_message_id = checker_status.id
+        first_message_id = checker_status.message_id
         await asyncio.sleep(5)
-        async for message in app.get_chat_history(bot_username, limit=1):
-            second_message_id = message.id
+        async for message in app.get_history(bot_username, limit=1):
+            second_message_id = message.message_id
         if first_message_id == second_message_id:
             status = f"\n\n🤖 **Bot**: @{bot_username}\n🔴 Status: **OFF** ❌"
             for bot_admin_id in BOT_ADMIN_IDS:
@@ -41,7 +41,7 @@ async def bot_check(bot_username):
                     await app.send_message(int(bot_admin_id), f"🚨 **Notification** 🚨\n\n» @{bot_username} is **DEAD** ❌")
         else:
             status = f"\n\n🤖 **Bot**: @{bot_username}\n🟢 Status: **ON** ✅"
-        await app.read_chat_history(bot_username)
+        await app.read_history(bot_username)
         return status
     except FloodWait as e:
         await asyncio.sleep(e.x)
