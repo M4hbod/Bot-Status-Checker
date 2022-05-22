@@ -1,54 +1,72 @@
-import os
-import pytz
 import asyncio
+import contextlib
 import datetime
-from pyrogram import Client, filters
+
+import aioschedule
+import pytz
+from pyrogram import Client, idle
 from pyrogram.errors import FloodWait
 
+from config import (API_HASH, API_ID, BOT_ADMIN_IDS, BOT_LIST,
+                    CHANNEL_OR_GROUP_ID, CHECK_DELAY, MESSAGE_ID,
+                    SESSION_STRING, TIME_ZONE)
 
 app = Client(
-    api_id = int(os.environ["API_ID"]),
-    api_hash = os.environ["API_HASH"],
-    session_name = os.environ["SESSION_NAME"]
+    'BOT',
+    API_ID,
+    API_HASH,
+    session_string=SESSION_STRING,
+    in_memory=True
 )
-TIME_ZONE = os.environ["TIME_ZONE"]
-BOT_LIST = [i.strip() for i in os.environ.get("BOT_LIST").split(' ')]
-CHANNEL_OR_GROUP_ID = int(os.environ["CHANNEL_OR_GROUP_ID"])
-MESSAGE_ID = int(os.environ["MESSAGE_ID"])
-BOT_ADMIN_IDS = [int(i.strip()) for i in os.environ.get("BOT_ADMIN_IDS").split(' ')]
+
+async def bot_check(bot_username):
+    """Checks if bot is online or not
+
+    Args:
+        bot_username (str): bot username to check
+
+    Returns:
+        str: bot status
+    """
+    try:
+        checker_status = await app.send_message(bot_username, "/start")
+        first_message_id = checker_status.id
+        await asyncio.sleep(5)
+        async for message in app.get_chat_history(bot_username, limit=1):
+            second_message_id = message.id
+        if first_message_id == second_message_id:
+            status = f"\n\n🤖 **Bot**: @{bot_username}\n🔴 Status: **OFF** ❌"
+            for bot_admin_id in BOT_ADMIN_IDS:
+                with contextlib.suppress(Exception):
+                    await app.send_message(int(bot_admin_id), f"🚨 **Notification** 🚨\n\n» @{bot_username} is **DEAD** ❌")
+        else:
+            status = f"\n\n🤖 **Bot**: @{bot_username}\n🟢 Status: **ON** ✅"
+        await app.read_chat_history(bot_username)
+        return status
+    except FloodWait as e:
+        await asyncio.sleep(e.x)
+
 
 async def status_checker():
-    async with app:
-            while True:
-                GET_CHANNEL_OR_GROUP = await app.get_chat(int(CHANNEL_OR_GROUP_ID))
-                CHANNEL_OR_GROUP_NAME = GET_CHANNEL_OR_GROUP.title
-                checker_bot = f"💡 **<u>وضعیت ربات ها</u>** 💡\n\n💬 **{CHANNEL_OR_GROUP_NAME}**"
-                for bot in BOT_LIST:
-                    try:
-                        checker_status = await app.send_message(bot, "/start")
-                        aaa = checker_status.message_id
-                        await asyncio.sleep(10)
-                        checker_user = await app.get_history(bot, limit = 1)
-                        for ccc in checker_user:
-                            bbb = ccc.message_id
-                        if aaa == bbb:
-                            checker_bot += f"\n\n🤖 **ربات**: @{bot}\n🔴 **وضعیت**: خاموش ❌"
-                            for bot_admin_id in BOT_ADMIN_IDS:
-                                try:
-                                    await app.send_message(int(bot_admin_id), f"🚨 **یالله** 🚨\n\n» ربات @{bot} خاموش شده** ❌")
-                                except Exception:
-                                    pass
-                            await app.read_history(bot)
-                        else:
-                            checker_bot += f"\n\n🤖 **ربات**: @{bot}\n🟢 **وضعیت**: روشن ✅"
-                            await app.read_history(bot)
-                    except FloodWait as e:
-                        await asyncio.sleep(e.x)            
-                time = datetime.datetime.now(pytz.timezone(f"{TIME_ZONE}"))
-                last_update = time.strftime(f"%d %b %Y at %I:%M %p")
-                checker_bot += f"\n\n🛂 Last Check: {last_update} ({TIME_ZONE})\n\n🟡 **هر 60 دقیقه چک خواهد شد**\n\n⚡ __Powered By M4hbod__"
-                await app.edit_message_text(int(CHANNEL_OR_GROUP_ID), MESSAGE_ID, checker_bot)
-                print(f"آخرین چک: {last_update}")                
-                await asyncio.sleep(3600)
+    print(1)
+    message = f"💡 **Bots Status** 💡\n\n"
+    for bot in BOT_LIST:
+        message += await bot_check(bot)
+    time = datetime.datetime.now(pytz.timezone(f"{TIME_ZONE}"))
+    last_update = time.strftime(f"%d %b %Y at %I:%M %p")
+    message += f"\n\n🛂 Last Check: {last_update} ({TIME_ZONE})\n\n🟡 **It will be updated every {CHECK_DELAY} Seconds ({int(CHECK_DELAY/60)} Minutes)**"
+    await app.edit_message_text(int(CHANNEL_OR_GROUP_ID), MESSAGE_ID, message)
+    print(f"Last Check: {last_update}")
                         
-app.run(status_checker())
+async def main():
+    await app.start()
+    info = await app.get_me()
+    print(f'[INFO] @{info.username} STARTED!')
+    await status_checker()
+    aioschedule.every(CHECK_DELAY).seconds.do(status_checker)
+
+    while True:
+        await aioschedule.run_pending()
+        await asyncio.sleep(10)
+        
+asyncio.get_event_loop().run_until_complete(main())

@@ -4,7 +4,7 @@ check your bot status automatically using userbot, simply and easy.
 ## Mandatory Vars
 1. `API_ID` : Telegram API_ID, get it from my.telegram.org/apps
 2. `API_HASH` : Telegram API_ID, get it from my.telegram.org/apps
-3. `SESSION_NAME` : A pyrogram session string
+3. `SESSION_STRING` : A pyrogram session string
 4. `BOT_LIST` : Your bot username list without "@" (Example: VeezMusicBot VeezMegaBot)
 5. `CHANNEL_OR_GROUP_ID` : Your channel's or group's Telegram id (Example: -1001246808642)
 6. `MESSAGE_ID` : Telegram id of message from your channel or group (Example: 10)

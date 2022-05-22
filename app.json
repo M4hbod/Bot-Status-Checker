@@ -19,7 +19,7 @@
             "description": "Get from my.telegram.org/apps",
             "required": true
         },
-        "SESSION_NAME": {
+        "SESSION_STRING": {
             "description": "Fill with pyrogram session string",
             "required": true
         },
@@ -40,6 +40,10 @@
         },
         "TIME_ZONE": {
             "description": "Your time zone (Example: Asia/Kolkata)",
+            "required": true
+        },
+        "CHECK_DELAY": {
+            "description": "Delay between each check in seconds (Example: 3600)",
             "required": true
         }
     },
