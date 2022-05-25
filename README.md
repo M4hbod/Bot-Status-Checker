@@ -14,6 +14,8 @@ check your bot status automatically using userbot, simply and easy.
 
 ## Installation
 
+##### Use [This](https://github.com/M4hbod/Bot-Status-Checker/tree/pyrogram-version-1) branch if you are using pyrogram version 1
+
 ### The Easy Way
 
 ##### Tap the Deploy To Heroku button below to deploy straight to Heroku!
