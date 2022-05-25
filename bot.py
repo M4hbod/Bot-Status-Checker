@@ -11,11 +11,9 @@ from config import (API_HASH, API_ID, BOT_ADMIN_IDS, BOT_LIST,
                     SESSION_STRING, TIME_ZONE)
 
 app = Client(
-    'BOT',
+    SESSION_STRING,
     API_ID,
     API_HASH,
-    session_string=SESSION_STRING,
-    in_memory=True
 )
 
 async def bot_check(bot_username):
