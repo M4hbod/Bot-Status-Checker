@@ -25,6 +25,8 @@ check your bot status automatically using userbot, simply and easy.
 ### The Hard Way
 
 ```sh
+git clone --single-branch --branch main https://github.com/M4hbod/Bot-Status-Checker/
+cd Bot-Status-Checker
 pip install -r requirements.txt
 cp example.env .env
 --- EDIT .env values appropriately ---
