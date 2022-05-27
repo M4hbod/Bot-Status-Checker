@@ -18,7 +18,7 @@ check your bot status automatically using userbot, simply and easy.
 
 ##### Tap the Deploy To Heroku button below to deploy straight to Heroku!
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/M4hbod/Bot-Status-Checker/tree/main)
+[![Deploy](https://heroku.com/deploy?template=https://github.com/M4hbod/Bot-Status-Checker/tree/pyrogram-version-1)
 
 ### The Hard Way
 
