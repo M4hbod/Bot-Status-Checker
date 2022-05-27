@@ -12,9 +12,24 @@ check your bot status automatically using userbot, simply and easy.
 8. `TIME_ZONE`: Your time zone (Example: Asia/Kolkata)
 9. `CHECK_DELAY`: Delay between each check in seconds (Example: 3600)
 
-### Deploy To Heroku
+## Installation
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/M4hbod/Bot-Status-Checker/tree/pyrogram-version-1)
+### The Easy Way
+
+##### Tap the Deploy To Heroku button below to deploy straight to Heroku!
+
+[![Deploy](https://heroku.com/deploy?template=https://github.com/M4hbod/Bot-Status-Checker/tree/pyrogram-version-1)
+
+### The Hard Way
+
+```sh
+git clone --single-branch --branch pyrogram-version-1 https://github.com/M4hbod/Bot-Status-Checker/
+cd Bot-Status-Checker
+pip install -r requirements.txt
+cp example.env .env
+--- EDIT .env values appropriately ---
+python bot.py
+```
 
 ### Credits
 - [levina](https://github.com/levina-lab) for his [status-checker](https://github.com/levina-lab/status-checker)
