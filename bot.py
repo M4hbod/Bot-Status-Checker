@@ -37,7 +37,7 @@ async def bot_check(bot_username):
                 if bot_admin_id.isnumeric():
                     bot_admin_id = int(bot_admin_id)
                 try:
-                    await app.send_message(int(bot_admin_id), f"🚨 **Notification** 🚨\n\n» @{bot_username} is **DEAD** ❌")
+                    await app.send_message(bot_admin_id, f"🚨 **Notification** 🚨\n\n» @{bot_username} is **DEAD** ❌")
                 except Exception as e:
                     print(e)
         else:
