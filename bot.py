@@ -29,7 +29,7 @@ async def bot_check(bot_username):
         checker_status = await app.send_message(bot_username, "/start")
         first_message_id = checker_status.message_id
         await asyncio.sleep(5)
-        async for message in app.get_history(bot_username, limit=1):
+        async for message in app.iter_history(bot_username, limit=1):
             second_message_id = message.message_id
         if first_message_id == second_message_id:
             status = f"\n\n🤖 **Bot**: @{bot_username}\n🔴 Status: **OFF** ❌"
